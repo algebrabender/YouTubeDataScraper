@@ -14,9 +14,9 @@
 
 * Github: [@algebrabender](https://github.com/algebrabender)
 
-## Show your support
+### Give a suggestion
 
-Give a ⭐️ if this project helped you!
+If you came across this project and have tip/suggestion/advice feel free to fork or make a pull request!
 
 ***
 _This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_
