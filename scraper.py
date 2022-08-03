@@ -1,7 +1,7 @@
 import imp
 from YouTubeAPI import YouTubeStats
 from datetime import datetime
-from database import DatabaseUpdate
+from database import database_update
 
 class Scraper():
     def __init__(self, api_key) -> None:
@@ -19,4 +19,4 @@ class Scraper():
                 "commentCount": item["statistics"]["commentCount"]
             }
 
-            DatabaseUpdate(data_dict)
+            database_update(data_dict)
