@@ -2,6 +2,7 @@ import pyrebase
 from datetime import datetime
 from dotenv import load_dotenv
 import os
+import pytz
 
 load_dotenv()
 api_key = os.getenv('db_api_key')
@@ -21,28 +22,34 @@ firebase = pyrebase.initialize_app(firebaseConfig)
 db = firebase.database()
 
 def database_update(data) -> None:
-    dt = datetime.now()
+    # dt = datetime.now()
+    tz_Seo = pytz.timezone('Asia/Seoul') 
+    dt_Seo = datetime.now(tz_Seo)
     fmt = '%Y-%m-%d'
+
+    print(dt_Seo.strftime(fmt))
 
     current_data = db.child("Girls_Camera_Guide").get().val()
 
-    if dt.strftime(fmt) in current_data:
-      db.child("Girls_Camera_Guide").child(dt.strftime(fmt)).update(data)
+    if dt_Seo.strftime(fmt) in current_data:
+      db.child("Girls_Camera_Guide").child(dt_Seo.strftime(fmt)).update(data)
       print("update")
     else:
-      db.child("Girls_Camera_Guide").child(dt.strftime(fmt)).set(data)
+      db.child("Girls_Camera_Guide").child(dt_Seo.strftime(fmt)).set(data)
       print("set")
 
 def database_data() -> dict():
     current_data = db.child("Girls_Camera_Guide").get().val()
 
     data_dict = {
+        "date": list(),
         "viewCount": list(), 
         "likeCount": list(), 
         "commentCount": list()
     }
 
     for idx, date in enumerate(current_data):
+        data_dict["date"].append(date)
         data_dict["viewCount"].append(int(current_data[date]["viewCount"]))
         data_dict["likeCount"].append(int(current_data[date]["likeCount"]))
         data_dict["commentCount"].append(int(current_data[date]["commentCount"]))
