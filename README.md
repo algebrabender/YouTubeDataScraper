@@ -4,8 +4,8 @@
 
 > Simple data scraper project as part of learning Python process.<br />
 > Tech Stack includes Python, YouTube Data API v3, Firebase Realtime Database<br />
-> TODO: insert data flow and database overview<br />
-> Next step is adding visualization of scraped data<br />
+> TODO: insert data flow chart and database overview<br />
+> Next step: automatization(maybe), adding support for multiple videos<br />
 
 
 ## Author
