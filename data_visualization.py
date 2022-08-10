@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
+import matplotlib as mpl
 from database import database_data
 
 def caluclate_increase(data) -> dict():
@@ -12,7 +13,7 @@ def caluclate_increase(data) -> dict():
     }
   
     for i in range(0, len(data["date"]) - 1):
-        data_dict["date"] = i + 1
+        data_dict["date"].append(i + 1)
         data_dict["viewCount"].append(data["viewCount"][i + 1] - data["viewCount"][i])
         data_dict["commentCount"].append(data["commentCount"][i + 1] - data["commentCount"][i])
         data_dict["likeCount"].append(data["likeCount"][i + 1] - data["likeCount"][i])
@@ -29,54 +30,45 @@ def show_graphs() -> None:
     y2 = data["commentCount"]
     y3 = data["likeCount"]
 
-    fig, axs = plt.subplots(1, 3, figsize=(15, 5), layout="constrained")
+    mpl.rcParams['toolbar'] = 'None'
+
+    fig, axs = plt.subplots(2, 3, figsize=(17, 7), layout="constrained")
+    fig.canvas.manager.set_window_title('Girls Camerwork Guide Video Stats')
     fig.suptitle("Girls Camerwork Guide Video Stats", fontsize="xx-large")
 
-    axs[0].scatter(x, y1, color="red")
-    axs[0].set_xlabel("Date")
-    axs[0].set_ylabel("Views Count")   
+    axs[0, 0].scatter(x, y1, color="red")
+    axs[0, 0].set_xlabel("Date")
+    axs[0, 0].set_ylabel("Views Count")   
 
-    axs[1].scatter(x, y2, color="green")
-    axs[1].set_xlabel("Date")
-    axs[1].set_ylabel("Comments Count")
-    axs[1].yaxis.set_major_locator(ticker.MultipleLocator(1))
+    axs[0, 1].scatter(x, y2, color="green")
+    axs[0, 1].set_xlabel("Date")
+    axs[0, 1].set_ylabel("Comments Count")
+    #axs[1].yaxis.set_major_locator(ticker.MultipleLocator(1))
 
-    axs[2].scatter(x, y3, color="blue")
-    axs[2].set_xlabel("Date")
-    axs[2].set_ylabel("Likes Count")
-
-    for ax in axs:
-        ax.ticklabel_format(axis='y', useOffset=False, style='plain')
-    plt.show()
-
-    #TODO: change to seperate plot so both show at the same time
+    axs[0, 2].scatter(x, y3, color="blue")
+    axs[0, 2].set_xlabel("Date")
+    axs[0, 2].set_ylabel("Likes Count")
 
     x = increase_data["date"]
     y1 = increase_data["viewCount"]
     y2 = increase_data["commentCount"]
     y3 = increase_data["likeCount"]
 
-    fig, axs = plt.subplots(1, 3, figsize=(15, 5), layout="constrained")
-    fig.suptitle("Girls Camerwork Guide Video Stats", fontsize="xx-large")
+    axs[1, 0].scatter(x, y1, color="red")
+    axs[1, 0].set_ylabel("Views Increase over days")   
+    axs[1, 0].xaxis.set_major_locator(ticker.MultipleLocator(1))
 
-    axs[0].scatter(x, y1, color="red")
-    axs[0].set_ylabel("Views Count")   
-    axs[0].xaxis.set_major_locator(ticker.MultipleLocator(1))
+    axs[1, 1].scatter(x, y2, color="green")
+    axs[1, 1].set_ylabel("Comments Increase over days")
+    axs[1, 1].xaxis.set_major_locator(ticker.MultipleLocator(1))
 
-    axs[1].scatter(x, y2, color="green")
-    axs[1].set_ylabel("Comments Count")
-    axs[1].xaxis.set_major_locator(ticker.MultipleLocator(1))
-    axs[1].yaxis.set_major_locator(ticker.MultipleLocator(1))
-
-    axs[2].scatter(x, y3, color="blue")
-    axs[2].set_ylabel("Likes Count")
-    axs[2].xaxis.set_major_locator(ticker.MultipleLocator(1))
-
-    for ax in axs:
-        ax.ticklabel_format(axis='y', useOffset=False, style='plain')
-    plt.show()
-
-    print(increase_data)
+    axs[1, 2].scatter(x, y3, color="blue")
+    axs[1, 2].set_ylabel("Likes Increase over days")
+    axs[1, 2].xaxis.set_major_locator(ticker.MultipleLocator(1))
     
+    for ax in axs[0]:
+        ax.ticklabel_format(axis='y', useOffset=False, style='plain')
+    for ax in axs[1]:
+        ax.ticklabel_format(axis='y', useOffset=False, style='plain')
 
-show_graphs()
+    plt.show()
