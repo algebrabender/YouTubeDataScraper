@@ -25,7 +25,7 @@ def database_update(data) -> None:
     # dt = datetime.now()
     tz_Seo = pytz.timezone('Asia/Seoul') 
     dt_Seo = datetime.now(tz_Seo)
-    fmt = '%Y-%m-%d'
+    fmt = '%m-%d'
 
     print(dt_Seo.strftime(fmt))
 
