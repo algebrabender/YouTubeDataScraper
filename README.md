@@ -3,9 +3,10 @@
 </p>
 
 > Simple data scraper project as part of learning Python process.<br />
+> App supports adding new video to the database and showing graphs for video stats that already in the database.<br />
 > Tech Stack includes Python, YouTube Data API v3, Firebase Realtime Database<br />
-> TODO: insert data flow chart and database overview<br />
-> Next step: automatization(maybe), adding support for multiple videos<br />
+> TODO: insert data flow chart, database overview and gui screenshots<br />
+> Next step: better graphs<br />
 
 
 ## Author
