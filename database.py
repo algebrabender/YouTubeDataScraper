@@ -15,31 +15,39 @@ firebaseConfig = {
   "storageBucket": "youtube-data-project-220801.appspot.com",
   "messagingSenderId": "1040982344166",
   "appId": "1:1040982344166:web:57b99b1e41b9de38de9627",
-  "measurementId": "G-86FKKTFJHD"
+  "measurementId": "G-86FKKTFJHD",
+  "serviceAccount": "youtube-data-project-220801-firebase-adminsdk-30od9-8c0994402d.json"
 };
 
 firebase = pyrebase.initialize_app(firebaseConfig)
 db = firebase.database()
 
-def database_update(data) -> None:
-    # dt = datetime.now()
+def database_update(title, data) -> None:
     tz_Seo = pytz.timezone('Asia/Seoul') 
     dt_Seo = datetime.now(tz_Seo)
     fmt = '%m-%d'
 
-    print(dt_Seo.strftime(fmt))
+    db_data = db.get().val()
 
-    current_data = db.child("Girls_Camera_Guide").get().val()
+    if title not in db_data.keys():
+        db.child(title).child(dt_Seo.strftime(fmt)).set(data)
+        return
 
+    current_data = db.child(title).get().val()
+    
     if dt_Seo.strftime(fmt) in current_data:
-      db.child("Girls_Camera_Guide").child(dt_Seo.strftime(fmt)).update(data)
-      print("update")
+      db.child(title).child(dt_Seo.strftime(fmt)).update(data)
+      # print("update")
     else:
-      db.child("Girls_Camera_Guide").child(dt_Seo.strftime(fmt)).set(data)
-      print("set")
+      db.child(title).child(dt_Seo.strftime(fmt)).set(data)
+      # print("set")
 
-def database_data() -> dict():
-    current_data = db.child("Girls_Camera_Guide").get().val()
+def database_data(video) -> dict():
+    data = db.get().val()
+    if video in data.keys():
+        current_data = db.child(video).get().val()
+    else:
+        return None
 
     data_dict = {
         "date": list(),
@@ -55,3 +63,19 @@ def database_data() -> dict():
         data_dict["commentCount"].append(int(current_data[date]["commentCount"]))
 
     return data_dict
+
+def database_keys() -> list():
+    vals = db.get().val();
+    keys = []
+    
+    for idx, val in enumerate(vals):
+        if val != "video_ids":
+          keys.append(val)
+    
+    return keys
+
+def database_update_video_ids(title, video_id):
+    db.child("video_ids").child(title).set(video_id)
+
+def database_video_ids(title):
+    return db.child("video_ids").child(title).get().val()
