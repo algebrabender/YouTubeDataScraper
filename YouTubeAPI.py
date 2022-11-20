@@ -36,6 +36,7 @@ class YouTubeStats():
             #print(item["snippet"]["title"])
             
             title = item["snippet"]["title"]
+            title = title.replace(".", "" )
 
         for idx,item in enumerate(data_stat["items"]):
             #print(item["statistics"])

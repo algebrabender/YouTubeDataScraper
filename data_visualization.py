@@ -34,8 +34,8 @@ def show_graphs(video) -> None:
     mpl.rcParams['toolbar'] = 'None'
 
     fig, axs = plt.subplots(2, 3, figsize=(17, 7), layout="constrained")
-    fig.canvas.manager.set_window_title('Girls Camerwork Guide Video Stats')
-    fig.suptitle("Girls Camerwork Guide Video Stats", fontsize="xx-large")
+    # fig.canvas.manager.set_window_title('Girls Camerwork Guide Video Stats')
+    # fig.suptitle("Girls Camerwork Guide Video Stats", fontsize="xx-large")
 
     plot,  = axs[0, 0].plot(x, y1, color="red", marker='o')
     axs[0, 0].set_xlabel("Date")

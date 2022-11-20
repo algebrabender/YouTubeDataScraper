@@ -23,27 +23,27 @@ firebase = pyrebase.initialize_app(firebaseConfig)
 db = firebase.database()
 
 def database_update(title, data) -> None:
-    tz_Seo = pytz.timezone('Asia/Seoul') 
-    dt_Seo = datetime.now(tz_Seo)
+    #tz_Seo = pytz.timezone('Asia/Seoul') 
+    #dt_Seo = datetime.now(tz_Seo)
+    dt = datetime.now()
     fmt = '%m-%d'
 
-    db_data = db.get().val()
-
-    if title not in db_data.keys():
-        db.child(title).child(dt_Seo.strftime(fmt)).set(data)
-        return
-
     current_data = db.child(title).get().val()
-    
-    if dt_Seo.strftime(fmt) in current_data:
-      db.child(title).child(dt_Seo.strftime(fmt)).update(data)
+
+    if current_data is None:
+        db.child(title).set("")
+        current_data = db.child(title).get().val()
+
+    if dt.strftime(fmt) in current_data:
+      db.child(title).child(dt.strftime(fmt)).update(data)
       # print("update")
     else:
-      db.child(title).child(dt_Seo.strftime(fmt)).set(data)
+      db.child(title).child(dt.strftime(fmt)).set(data)
       # print("set")
 
 def database_data(video) -> dict():
-    data = db.get().val()
+    data = db.child("video_ids").get().val()
+
     if video in data.keys():
         current_data = db.child(video).get().val()
     else:
@@ -68,6 +68,9 @@ def database_keys() -> list():
     vals = db.get().val();
     keys = []
     
+    if vals is None:
+        return keys
+
     for idx, val in enumerate(vals):
         if val != "video_ids":
           keys.append(val)
@@ -75,7 +78,10 @@ def database_keys() -> list():
     return keys
 
 def database_update_video_ids(title, video_id):
+    if title in db.child("video_ids").get().val():
+        return
     db.child("video_ids").child(title).set(video_id)
+    #db.child(title).set(video_id)
 
 def database_video_ids(title):
     return db.child("video_ids").child(title).get().val()

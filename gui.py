@@ -34,7 +34,7 @@ def gui(scraper):
         if event == "GET DATA":
             # print(values['-DBDD-'])
             video_id = database_video_ids(values['-DBDD-'])
-            scraper.scrape(video_id)
+            scraper.scrape(video_id, True)
             show_graphs(values['-DBDD-'])
 
     window.close()
